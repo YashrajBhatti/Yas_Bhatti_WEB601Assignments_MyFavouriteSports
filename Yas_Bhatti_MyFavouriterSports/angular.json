@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Yas_Bhatti_MyFavouriteSports": {
+    "Yas_Bhatti_MyFavouriterSports": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/yas-bhatti-my-favourite-sports",
+            "outputPath": "dist/yas-bhatti-my-favouriter-sports",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Yas_Bhatti_MyFavouriteSports:build:production"
+              "buildTarget": "Yas_Bhatti_MyFavouriterSports:build:production"
             },
             "development": {
-              "buildTarget": "Yas_Bhatti_MyFavouriteSports:build:development"
+              "buildTarget": "Yas_Bhatti_MyFavouriterSports:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Yas_Bhatti_MyFavouriteSports:build"
+            "buildTarget": "Yas_Bhatti_MyFavouriterSports:build"
           }
         },
         "test": {
@@ -99,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "6efae628-e2d0-4c70-8f00-68b8cf364e0c"
+    "analytics": false
   }
 }

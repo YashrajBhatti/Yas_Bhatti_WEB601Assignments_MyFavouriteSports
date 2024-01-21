@@ -1,0 +1,11 @@
+<style>
+  
+
+</style>
+
+
+
+<div *ngFor="let content of contentList.contentList">
+    <div [innerHTML]="contentList.getContentHtml(content.id - 1)"></div>
+  </div>
+  
