@@ -10,6 +10,5 @@ import { ContentCardComponent } from './content-card/content-card.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Yas_Bhatti_MyFavouriterSports';
+  title = 'Yas_Bhatti_MyFavouriteSports';
 }
-
