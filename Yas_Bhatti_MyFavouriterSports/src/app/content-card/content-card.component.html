@@ -1,11 +1,8 @@
-<style>
-  
-
-</style>
-
-
-
-<div *ngFor="let content of contentList.contentList">
-    <div [innerHTML]="contentList.getContentHtml(content.id - 1)"></div>
+<div>
+    <div>
+        @for(content of contentList.content; track content.id; let i = $index){
+            <div [innerHTML]="contentList.getContent(i)">
+            </div>
+        }
+    </div>
   </div>
-  
