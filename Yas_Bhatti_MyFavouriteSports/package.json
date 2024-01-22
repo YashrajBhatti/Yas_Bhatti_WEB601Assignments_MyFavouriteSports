@@ -6,7 +6,7 @@
     "start": "ng serve",
     "generatecomponent": "ng generate component ",
     "generatepipe": "ng generate pipe ",
-    "generatedirective": "ng generate directive"
+    "generatedirective": "ng generate directive",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
