@@ -1,44 +1,43 @@
 import { Component } from '@angular/core';
 import { Content } from '../helper-files/content-interface';
-import { NgFor, NgStyle } from '@angular/common';
-import { ContentCardComponent } from '../content-card/content-card.component';
 
 @Component({
   selector: 'app-content-list',
-  standalone: true,
-  imports: [NgFor, NgStyle, ContentCardComponent],
   templateUrl: './content-list.component.html',
-  styleUrl: './content-list.component.scss',
+  styleUrls: ['./content-list.component.scss'],
 })
 export class ContentListComponent {
-  contentArray: Content[];
+  searchTitle: string = '';
+  searchMsg: string = '';
+  isTitleFound: boolean = false;
+  contents: Content[];
 
   constructor() {
-    this.contentArray = [
+    this.contents = [
       {
         id: 0,
-        title: 'Football',
-        description: 'Soccer',
+        title: 'Soccer',
+        description: 'The Beautiful Game',
         creator: 'FIFA',
-        imgURL: '',
+        imgURL: 'assets/images/soccer.jpeg',
         type: 'Team Sport',
-        tags: ['soccer', 'goal', 'pitch'],
+        tags: ['football', 'goal', 'pitch'],
       },
       {
         id: 1,
         title: 'Basketball',
-        description: 'NBA',
+        description: 'NBA Excitement',
         creator: 'National Basketball Association',
-        imgURL: '',
+        imgURL: 'assets/images/basketball.jpeg',
         type: 'Team Sport',
         tags: ['hoop', 'dunk', 'court'],
       },
       {
         id: 2,
         title: 'Tennis',
-        description: 'Grand Slam',
+        description: 'Grand Slam Action',
         creator: 'Various',
-        imgURL: '',
+        imgURL: 'assets/images/tennis.jpeg',
         type: '',
         tags: ['racket', 'serve', 'court'],
       },
@@ -47,38 +46,49 @@ export class ContentListComponent {
         title: 'Golf',
         description: 'Masters Tournament',
         creator: 'Augusta National Golf Club',
-        imgURL: '',
+        imgURL: 'assets/images/golf.jpeg',
         type: 'Individual Sport',
         tags: ['putt', 'tee', 'green'],
       },
       {
         id: 4,
-        title: 'Cricket',
-        description: 'Test Match',
-        creator: 'International Cricket Council',
-        imgURL: '',
-        type: 'Team Sport',
-        tags: ['bat', 'ball', 'wicket'],
-      },
-      {
-        id: 5,
         title: 'Swimming',
-        description: 'Olympic Sport',
+        description: 'Olympic Aquatics',
         creator: 'Various',
-        imgURL: '',
+        imgURL: 'assets/images/swimming.jpeg',
         type: 'Individual Sport',
         tags: ['pool', 'stroke', 'record'],
       },
       {
-        id: 6,
+        id: 5,
         title: 'Cycling',
-        description: 'Tour de France',
+        description: 'Tour de France Adventure',
         creator: 'Amaury Sport Organisation',
-        imgURL: '',
+        imgURL: 'assets/images/cycling.jpeg',
         type: 'Individual Sport',
         tags: ['bike', 'race', 'mountains'],
       },
-    ];    
+      {
+        id: 6,
+        title: 'Volleyball',
+        description: 'Spiking Success',
+        creator: 'FIVB',
+        imgURL: 'assets/images/volleyball.jpeg',
+        type: 'Team Sport',
+        tags: ['spike', 'block', 'court'],
+      },
+    ];
   }
-  
+
+  searchContentByTitle() {
+    const doesTitleMatch = this.contents.some(
+      (content) =>
+        content.title.toLowerCase() === this.searchTitle.toLowerCase()
+    );
+
+    this.isTitleFound = doesTitleMatch;
+    this.searchMsg = doesTitleMatch
+      ? `Content with title '${this.searchTitle}' exists.`
+      : `Content with title '${this.searchTitle}' does not exist.`;
+  }
 }
