@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentCardComponent } from './content-card/content-card.component';
 import { ContentListComponent } from './content-list/content-list.component';
+import { CreateContentComponent } from './create-content/create-content.component';
 import { FilterContentPipe } from './filter-content.pipe';
 import { HoverAffectDirective } from './hover-affect.directive';
 
@@ -14,6 +15,7 @@ import { HoverAffectDirective } from './hover-affect.directive';
     AppComponent,
     ContentCardComponent,
     ContentListComponent,
+    CreateContentComponent,
     FilterContentPipe,
     HoverAffectDirective,
   ],

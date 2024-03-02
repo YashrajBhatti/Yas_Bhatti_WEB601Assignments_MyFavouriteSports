@@ -1,7 +1,7 @@
 <h1>My Favourite Sports</h1>
 
 <div>
-  <input type="text" [(ngModel)]="searchTitle" placeholder="Enter title for eg. Janet Dyne" size="40" />
+  <input type="text" [(ngModel)]="searchTitle" placeholder="Enter title for eg. Tennis" size="40" />
 
   <button (click)="searchContentByTitle()">Search</button>
 
@@ -9,6 +9,8 @@
     {{ searchMsg }}
   </p>
 </div>
+
+<app-create-content (contentAdded)="handleContentSubmission($event)"></app-create-content>
 
 <h2>Content item with NO Type</h2>
 
