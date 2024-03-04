@@ -92,19 +92,11 @@ export class ContentListComponent {
       : `Content with title '${this.searchTitle}' does not exist.`;
   }
 
-  //Method to handle the submission of new content items; param of type 'Content'
   handleContentSubmission(newContent: Content) {
-    //Ensuring id is a number
     newContent.id = Number(newContent.id);
-    //Not working - this.contentArray.push(newContent);
-    
-    //Creates a new array by taking the existing contentArray into a new one
-    //Then it appends the newContent object to the new array
     this.contents = [...this.contents, newContent];
 
-    //Debug
     console.log(this.contents)
-    //output title of new content item
     console.log("Success! New content added: ", newContent.title)
   }
 

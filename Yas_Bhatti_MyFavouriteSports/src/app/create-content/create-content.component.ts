@@ -20,6 +20,7 @@ export class CreateContentComponent {
       if (!this.isValidContent(this.content)) {
         //Not valid: display error message
         this.errorMessage = 'Id, Title, Description, Creator fields are required';
+        this.clearMsg();
         reject(this.errorMessage);
       } else {
         this.content.tags = this.tagInput ? this.tagInput.split(',').map(tag => tag.trim()) : [];
@@ -31,6 +32,9 @@ export class CreateContentComponent {
     });
   }
 
+   clearMsg(){
+    this.successMessage = '';
+   }
 
   clearFields() {
     this.content = {} as Content;
