@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { Content } from '../helper-files/content-interface';
 import { ContentCardComponent } from '../content-card/content-card.component';
 import { FilterTypePipe } from '../filter-type.pipe';
-import { MovieService } from '../sports.service';
+import { Sportservice } from '../sports.service';
 
 @Component({
   selector: 'app-content-list',
@@ -35,14 +35,14 @@ export class ContentListComponent implements OnInit {
     this.message = this.isFound ? `Content with title '${this.title}' found.` : `Content with title '${this.title}' not found.`;
   }
 
-  //injecting movieService of type MovieService into the component
-  constructor(private movieService: MovieService){ }
+  //injecting Sportservice of type Sportservice into the component
+  constructor(private Sportservice: Sportservice){ }
 
-  //fetches the contentArray from MovieService
-  getMoviesContent(): void {
-    //invokes method from MovieService, returns an Observable that outputs a movie Content[] array 
+  //fetches the contentArray from Sportservice
+  getSportsContent(): void {
+    //invokes method from Sportservice, returns an Observable that outputs a movie Content[] array 
     //pipe - chains RxJS operators (handles the error)
-    this.movieService.getContentArray().pipe(
+    this.Sportservice.getContentArray().pipe(
       //catches any errors that occur during the HTTP request/processing of the observable 
         catchError(error => {
           console.error('Error fetching content:', error);
@@ -64,9 +64,9 @@ export class ContentListComponent implements OnInit {
     this.message = this.searchedContent ? `Content with title '${this.title}' found.` : `Content with title '${this.title}' not found.`;
   }
 
-  //getMoviesContent ^^ is invoked, initiating the fetching of the content from the MovieService
+  //getSportsContent ^^ is invoked, initiating the fetching of the content from the Sportservice
   ngOnInit(): void {
-    this.getMoviesContent();
+    this.getSportsContent();
   }
   
 }

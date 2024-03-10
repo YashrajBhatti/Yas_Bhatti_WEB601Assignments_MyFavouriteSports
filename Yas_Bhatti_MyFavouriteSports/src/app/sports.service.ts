@@ -7,7 +7,7 @@ import { MessageService } from './message.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MovieService {
+export class Sportservice {
 
   constructor(private messageService: MessageService) { }
 

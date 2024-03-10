@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { ContentCardComponent } from './content-card/content-card.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import {Content} from './helper-files/content-interface';
-import { MovieService } from './sports.service';
+import { Sportservice } from './sports.service';
 import {MessagesComponent} from './messages/messages.component';
 
 @Component({
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit{
   customContent: Content | undefined;
 
   //injecting MovieService
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: Sportservice) {}
 
   ngOnInit(): void {
     //choose ID
