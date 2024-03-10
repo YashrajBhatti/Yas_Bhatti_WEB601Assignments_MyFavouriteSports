@@ -1,94 +1,72 @@
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import { Content } from '../helper-files/content-interface';
+import { ContentCardComponent } from '../content-card/content-card.component';
+import { FilterTypePipe } from '../filter-type.pipe';
+import { MovieService } from '../sports.service';
 
 @Component({
   selector: 'app-content-list',
+  standalone: true,
+  imports: [CommonModule, ContentCardComponent, FilterTypePipe, FormsModule],
   templateUrl: './content-list.component.html',
-  styleUrls: ['./content-list.component.scss'],
+  styleUrls: ['./content-list.component.scss']
 })
-export class ContentListComponent {
-  searchTitle: string = '';
-  searchMsg: string = '';
-  isTitleFound: boolean = false;
-  contents: Content[];
+export class ContentListComponent implements OnInit {
+  //declares property contentArray of type 'Content[]' (initialize it as empty)
+  contentArray: Content[] = [];
+  filterContent: Content[] = [];
+  searchedContent: Content | undefined;
+  title:string = '';
+  message: string = '';
+  isFound: boolean = false;
+  
 
-  constructor() {
-    this.contents = [
-      {
-        id: 0,
-        title: 'Soccer',
-        description: 'The Beautiful Game',
-        creator: 'FIFA',
-        imgURL: 'assets/images/soccer.jpeg',
-        type: 'Team Sport',
-        tags: ['football', 'goal', 'pitch'],
-      },
-      {
-        id: 1,
-        title: 'Basketball',
-        description: 'NBA Excitement',
-        creator: 'National Basketball Association',
-        // imgURL: 'assets/images/basketball.jpeg',
-        type: 'Team Sport',
-        tags: ['hoop', 'dunk', 'court'],
-      },
-      {
-        id: 2,
-        title: 'Tennis',
-        description: 'Grand Slam Action',
-        creator: 'Various',
-        imgURL: 'assets/images/tennis.jpeg',
-        type: '',
-        tags: ['racket', 'serve', 'court'],
-      },
-      {
-        id: 3,
-        title: 'Golf',
-        description: 'Masters Tournament',
-        creator: 'Augusta National Golf Club',
-        imgURL: 'assets/images/golf.jpeg',
-        type: 'Individual Sport',
-        tags: ['putt', 'tee', 'green'],
-      },
-      {
-        id: 4,
-        title: 'Swimming',
-        description: 'Olympic Aquatics',
-        creator: 'Various',
-        imgURL: 'assets/images/swimming.jpeg',
-        type: 'Individual Sport',
-        tags: ['pool', 'stroke', 'record'],
-      },
-      {
-        id: 5,
-        title: 'Cycling',
-        description: 'Tour de France Adventure',
-        creator: 'Amaury Sport Organisation',
-        imgURL: 'assets/images/cycling.jpeg',
-        type: 'Individual Sport',
-        tags: ['bike', 'race', 'mountains'],
-      },
-      {
-        id: 6,
-        title: 'Volleyball',
-        description: 'Spiking Success',
-        creator: 'FIVB',
-        // imgURL: 'assets/images/volleyball.jpeg',
-        type: 'Team Sport',
-        tags: ['spike', 'block', 'court'],
-      },
-    ];
+  checkTitle(){
+    this.filterContent = this.contentArray.filter(item => item.title.toLowerCase() === this.title.toLowerCase());
+
+    this.isFound = this.filterContent.length > 0;
+    
+    this.message = this.isFound ? `Content with title '${this.title}' found.` : `Content with title '${this.title}' not found.`;
   }
 
-  searchContentByTitle() {
-    const doesTitleMatch = this.contents.some(
-      (content) =>
-        content.title.toLowerCase() === this.searchTitle.toLowerCase()
-    );
+  //injecting movieService of type MovieService into the component
+  constructor(private movieService: MovieService){ }
 
-    this.isTitleFound = doesTitleMatch;
-    this.searchMsg = doesTitleMatch
-      ? `Content with title '${this.searchTitle}' exists.`
-      : `Content with title '${this.searchTitle}' does not exist.`;
+  //fetches the contentArray from MovieService
+  getMoviesContent(): void {
+    //invokes method from MovieService, returns an Observable that outputs a movie Content[] array 
+    //pipe - chains RxJS operators (handles the error)
+    this.movieService.getContentArray().pipe(
+      //catches any errors that occur during the HTTP request/processing of the observable 
+        catchError(error => {
+          console.error('Error fetching content:', error);
+          //return empty array if there's an error
+          return of([]); 
+        })
+      )
+      //subscribe - is called on the observable stream, 
+      //receives the content array from the observable (the original content array or am empty array)
+      //inside the callback function - the content array is assigned to the contentArray property of the component
+      .subscribe((content: Content[]) => {
+        this.contentArray = content;
+      });
   }
+  searchContentByTitle(): void {
+    this.searchedContent = this.contentArray.find(item => item.title.toLowerCase() === this.title.toLowerCase());
+
+    // Update message based on whether content was found
+    this.message = this.searchedContent ? `Content with title '${this.title}' found.` : `Content with title '${this.title}' not found.`;
+  }
+
+  //getMoviesContent ^^ is invoked, initiating the fetching of the content from the MovieService
+  ngOnInit(): void {
+    this.getMoviesContent();
+  }
+  
 }
