@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
@@ -10,39 +9,62 @@ import { ContentCardComponent } from '../content-card/content-card.component';
 import { FilterTypePipe } from '../filter-type.pipe';
 import { Sportservice } from '../sports.service';
 
+import { ModifyContentComponentComponent } from '../modify-content-component/modify-content-component.component';
+
 @Component({
   selector: 'app-content-list',
   standalone: true,
-  imports: [CommonModule, ContentCardComponent, FilterTypePipe, FormsModule],
+  imports: [CommonModule, ContentCardComponent, FilterTypePipe, FormsModule,ModifyContentComponentComponent],
   templateUrl: './content-list.component.html',
   styleUrls: ['./content-list.component.scss']
 })
+
 export class ContentListComponent implements OnInit {
   //declares property contentArray of type 'Content[]' (initialize it as empty)
   contentArray: Content[] = [];
   filterContent: Content[] = [];
-  searchedContent: Content | undefined;
   title:string = '';
   message: string = '';
   isFound: boolean = false;
   
-
-  checkTitle(){
-    this.filterContent = this.contentArray.filter(item => item.title.toLowerCase() === this.title.toLowerCase());
-
-    this.isFound = this.filterContent.length > 0;
-    
-    this.message = this.isFound ? `Content with title '${this.title}' found.` : `Content with title '${this.title}' not found.`;
+  onContentAdded(newContent: Content) {
+    console.log('New content:', newContent);
+    this.contentArray = [...this.contentArray, newContent];
+    if(newContent){
+      console.log(`Success ${newContent.title}`);
+    }
   }
 
-  //injecting Sportservice of type Sportservice into the component
-  constructor(private Sportservice: Sportservice){ }
+  //injecting SportService of type SportService into the component
+  constructor(private SportService: Sportservice){ }
 
-  //fetches the contentArray from Sportservice
+  
+  checkTitle() {
+    // Check if 'this.title' is defined
+    if (!this.title) {
+      this.message = "Title is not provided.";
+      return;
+    }
+  
+    // Filter content array by title (case-insensitive)
+    this.filterContent = this.contentArray.filter(item => 
+      item && item.title && item.title.toLowerCase() === this.title.toLowerCase()
+    );
+  
+    // Check if any content is found
+    this.isFound = this.filterContent.length > 0;
+  
+    // Set message based on search result
+    this.message = this.isFound 
+      ? `Content with title '${this.title}' found.` 
+      : `Content with title '${this.title}' not found.`;
+  }
+
+  //fetches the contentArray from SportService
   getSportsContent(): void {
-    //invokes method from Sportservice, returns an Observable that outputs a movie Content[] array 
+    //invokes method from SportService, returns an Observable that outputs a Sport Content[] array 
     //pipe - chains RxJS operators (handles the error)
-    this.Sportservice.getContentArray().pipe(
+    this.SportService.getContentArray().pipe(
       //catches any errors that occur during the HTTP request/processing of the observable 
         catchError(error => {
           console.error('Error fetching content:', error);
@@ -57,16 +79,9 @@ export class ContentListComponent implements OnInit {
         this.contentArray = content;
       });
   }
-  searchContentByTitle(): void {
-    this.searchedContent = this.contentArray.find(item => item.title.toLowerCase() === this.title.toLowerCase());
 
-    // Update message based on whether content was found
-    this.message = this.searchedContent ? `Content with title '${this.title}' found.` : `Content with title '${this.title}' not found.`;
-  }
-
-  //getSportsContent ^^ is invoked, initiating the fetching of the content from the Sportservice
+  //getSportsContent ^^ is invoked, initiating the fetching of the content from the SportService
   ngOnInit(): void {
     this.getSportsContent();
   }
-  
 }
